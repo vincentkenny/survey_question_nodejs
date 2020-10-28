@@ -7,9 +7,6 @@ module.exports = (sequelize, DataTypes)=>{
         selectOptionMode:{
             type : DataTypes.INTEGER
         },
-        QuestionID:{
-            type: DataTypes.INTEGER
-        }
     });
     return Option;
 };

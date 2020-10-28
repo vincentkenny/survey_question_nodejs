@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-
+const db = require("./models");
 const bodyParser = require('body-parser');
 
-const apiRoutes = require('./api/routes/apiRoutes');
+const detailsRoutes = require('./api/routes/details');
+const optionsRoutes = require('./api/routes/options')
 
 app.set('view engine','ejs');
 app.use(bodyParser.json());
@@ -19,7 +20,8 @@ app.use((req,res,next)=>{
     next();
 });
 
-app.use('/api',apiRoutes);
+app.use('/details',detailsRoutes);
+app.use('/options',optionsRoutes);
 
 app.use((req,res,next)=>{
     const error = new Error('Not found');
@@ -30,7 +32,8 @@ app.use((error,req,res,next)=>{
     res.status(error.status || 500);
     res.json({
         error:{
-            message:error.message+", use '/api'",
+            message:error.message,
+            url: 'http://localhost:3000/details'
         
         }
     });

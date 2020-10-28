@@ -1,8 +1,92 @@
 <html>
+    <head>
+        <style>
+            .question-container{
+                width: 100%;
+                border-style: solid;
+            }
+            #answer-container{
+                
+            }
+            #select-container{
+                float:left;
+                width:50%;
+                text-align: right;
+            }
+            #option-container{
+            }
+        </style>
+    </head>
     <body>
-        check
+        <div class="question-container">
+            <form action="http://localhost:3000/api" method="POST">
+            Question: <textarea class ="question-text" name="question" required="true"></textarea><br/>
+            <div id="answer-container">
+                <div id="select-container">Respondent Option</div>
+                <div id="option-container"></div>
+                
+            </div>
+            
+            Allow "None of the above" <input type="checkbox" name='isAllowed'><br/>
+            Shuffle the Order <input type="checkbox" name='isShuffled'
+            </form>
+        </div>
+
         <% for(var i=0;i< question.length;i++){%>
             <h2><%= question[i].id%></h2>
         <% }%>
     </body>
+    <script>
+        var idxAnswer = 0;
+        function generate_answer(idxAnswer){
+            answerContainer = document.getElementById("answer-container");
+            selectContainer = document.getElementById("select-container");
+            optionContainer = document.getElementById("option-container");
+            var selection = document.createElement("select")
+            selection.setAttribute('name','selectOptionMode'+idxAnswer);
+            selection.setAttribute('class','selectItem');
+            var option =[];
+            for(var i=0;i<3;i++){
+                option[i] = document.createElement('option');
+                option[i].setAttribute('value',i);
+                if(i==0)
+                    option[i].innerHTML = "May Select"
+                else if(i==1)
+                    option[i].innerHTML = "Must Select"
+                else if(i==2)
+                    option[i].innerHTML = "Terminate if Select"
+                selection.appendChild(option[i]);
+            }
+            var answertext = document.createElement('input');
+            answertext.setAttribute('type','text');
+            answertext.setAttribute('class','answerItem');
+            answertext.setAttribute('name','answerOption'+idxAnswer)
+            answertext.setAttribute('placeholder','Enter answer option');
+            answertext.addEventListener("keypress",function(event){
+                if(event.keyCode=='13'){
+                    generate_answer(idxAnswer);
+                }
+            });
+            var btnDelete = document.createElement('button');
+            btnDelete.innerHTML="Delete";
+            btnDelete.setAttribute('id','btn'+idxAnswer);
+            btnDelete.setAttribute('class','btnDelete');
+            btnDelete.addEventListener('click',function(){
+                id = this.id.splice(0,3);
+                deletedSelect = document.getElementsByid('selecOptionMode'+id);
+                deletedOption = document.getElementsByid
+            });
+            selectContainer.innerHTML+="<br/>";
+            optionContainer.innerHTML+="<br/>";
+            selectContainer.appendChild(selection);
+            
+            optionContainer.appendChild(answertext);
+            optionContainer.appendChild(btnDelete);
+            
+            
+            idxAnswer+=1;
+        }
+        generate_answer(idxAnswer);
+        
+    </script>
 </html>
