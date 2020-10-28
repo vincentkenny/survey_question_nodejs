@@ -56,7 +56,7 @@ exports.options_get_all = (req, res, next) => {
             id: req.params.questionID
         }
     }).then(result=>{
-        res.status(200).json({
+        res.status(204).json({
             message:'option deletion successful',
             url: 'http://localhost:3000/options'
         })

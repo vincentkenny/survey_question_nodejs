@@ -66,7 +66,7 @@ exports.details_create_question = (req, res, next) => {
           });
         idxOption += 1;
       }
-      res.status(401).json({ message: "Input success" });
+      res.status(201).json({ message: "Input success" });
     })
     .catch((err) => {
       res.status(500).json({
@@ -152,7 +152,7 @@ exports.details_get_question = (req, res, next) => {
             include: ["Options"],
           })
             .then((result) => {
-              res.status(200).json({
+              res.status(204).json({
                 question_id: result.id,
                 questionText: result.questionText,
                 isNoneOfTheAboveAllowed: result.isAllowedNone,
@@ -199,7 +199,7 @@ exports.details_get_question = (req, res, next) => {
         },
       })
         .then((result) => {
-          res.status(200).json({
+          res.status(204).json({
             message: "Deletion Successful",
             url: "http://localhost:3000/details",
           });
