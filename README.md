@@ -1,7 +1,7 @@
 1. to start the server: node server.js  /  nodemon server.js / npm start <br/>
-2. to start the testing: npm test
+2. to start the testing: npm test <br/>
 
-The default endpoint is http://localhost:3000/details
+The default endpoint is http://localhost:3000/details/ <br/>
 
 For the mySQL ORM I used Sequelize <br/>
 For the TDD environment I used Jest and Supertest <br/>
