@@ -18,6 +18,7 @@ exports.options_get_all = (req, res, next) => {
               questionID: result.id_question,
             };
           }),
+          url: "http://localhost:3000/options/{OptionID}",
         });
       })
       .catch((err) => {

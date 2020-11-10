@@ -1,6 +1,6 @@
 const db = require(__dirname + "/../../models");
 
-exports.details_get_all = (req, res, next) => {
+exports.questions_get_all = (req, res, next) => {
   db.Question.findAll({
     include: ["Options"],
   })
@@ -29,6 +29,7 @@ exports.details_get_all = (req, res, next) => {
             }),
           };
         }),
+        url: "http://localhost:3000/questions/{QuestionID}",
       });
     })
     .catch((err) => {
@@ -38,7 +39,7 @@ exports.details_get_all = (req, res, next) => {
     });
 };
 
-exports.details_create_question = (req, res, next) => {
+exports.questions_create_question = (req, res, next) => {
   const allowNone = req.body.isAllowed || 0;
   const shuffleOrder = req.body.isShuffled || 0;
   db.Question.create({
@@ -54,19 +55,19 @@ exports.details_create_question = (req, res, next) => {
           answerOption: req.body["answerOption" + idxOption],
           selectOptionMode: req.body["selectOptionMode" + idxOption],
           QuestionId: questionID,
-          id_question: questionID,
         })
           .then((opt_res) => {
-            console.log(opt_res);
+            // console.log(opt_res);
           })
           .catch((err) => {
             res.status(500).json({
               message: "Option write unsuccessful",
+              url: "http://localhost:3000/questions",
             });
           });
         idxOption += 1;
       }
-      res.status(201).json({ message: "Input success" });
+      res.status(201).json({ message: "Input success"});
     })
     .catch((err) => {
       res.status(500).json({
@@ -75,7 +76,7 @@ exports.details_create_question = (req, res, next) => {
     });
 };
 
-exports.details_get_question = (req, res, next) => {
+exports.questions_get_question = (req, res, next) => {
     db.Question.findByPk(req.params.questionID, {
       include: ["Options"],
     })
@@ -98,18 +99,18 @@ exports.details_get_question = (req, res, next) => {
               optionModeMeaning: optionModeMeaning,
             };
           }),
-          url: "http://localhost:3000/api/",
+          url: "http://localhost:3000/questions/",
         });
       })
       .catch((err) => {
         res.status(404).json({
           message: "Data not found",
-          url: "http://localhost:3000/details/"
+          url: "http://localhost:3000/questions/"
         });
       });
   }
 
-  exports.details_update_question = (req, res, next) => {
+  exports.questions_update_question = (req, res, next) => {
     const allowNone = req.body.isAllowed || 0;
     const shuffleOrder = req.body.isShuffled || 0;
     //updating Question
@@ -129,7 +130,7 @@ exports.details_get_question = (req, res, next) => {
         //getting related options and sorting
         db.Option.findAll({
           where: {
-            id_question: req.params.questionID,
+            QuestionId: req.params.questionID,
           },
           order: [["id", "ASC"]],
         }).then((option_results) => {
@@ -170,7 +171,7 @@ exports.details_get_question = (req, res, next) => {
                     optionModeMeaning: optionModeMeaning,
                   };
                 }),
-                url: "http://localhost:3000/api/",
+                url: "http://localhost:3000/questions/",
               });
             })
             .catch((err) => {
@@ -187,10 +188,10 @@ exports.details_get_question = (req, res, next) => {
       });
   }
 
-  exports.details_delete_question = (req, res, next) => {
+  exports.questions_delete_question = (req, res, next) => {
     db.Option.destroy({
       where: {
-        id_question: req.params.questionID,
+        QuestionId: req.params.questionID,
       },
     }).then(() => {
       db.Question.destroy({
@@ -201,7 +202,7 @@ exports.details_get_question = (req, res, next) => {
         .then((result) => {
           res.status(204).json({
             message: "Deletion Successful",
-            url: "http://localhost:3000/details",
+            url: "http://localhost:3000/questions",
           });
         })
         .catch((err) => {

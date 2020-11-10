@@ -1,9 +1,5 @@
 const express = require("express");
-const { Question } = require("../../models");
-const option = require("../../models/option");
-const question = require("../../models/question");
 const router = express.Router();
-const db = require(__dirname + "/../../models");
 
 const optionsController = require('../controller/options');
 

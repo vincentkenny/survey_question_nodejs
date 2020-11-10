@@ -1,9 +1,8 @@
 const express = require('express');
 const app = express();
-const db = require("./models");
 const bodyParser = require('body-parser');
 
-const detailsRoutes = require('./api/routes/details');
+const questionsRoutes = require('./api/routes/questions');
 const optionsRoutes = require('./api/routes/options')
 
 app.set('view engine','ejs');
@@ -20,7 +19,7 @@ app.use((req,res,next)=>{
     next();
 });
 
-app.use('/details',detailsRoutes);
+app.use('/questions',questionsRoutes);
 app.use('/options',optionsRoutes);
 
 app.use((req,res,next)=>{
@@ -33,7 +32,7 @@ app.use((error,req,res,next)=>{
     res.json({
         error:{
             message:error.message,
-            url: 'http://localhost:3000/details'
+            url: 'http://localhost:3000/questions'
         
         }
     });
