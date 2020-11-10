@@ -1,10 +1,7 @@
 const app = require('../app')
 const supertest = require('supertest')
 const request = supertest(app)
-const fs = require('fs')
 const db = require('../models');
-
-var tempQuestionId = ""
 
 describe('Question API',()=>{
 
