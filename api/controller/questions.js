@@ -1,5 +1,16 @@
 const db = require(__dirname + "/../../models");
 
+function shuffleOptions(sourceOption) {
+  for (var i = 0; i < sourceOption.length - 1; i++) {
+      var j = i + Math.floor(Math.random() * (sourceOption.length - i));
+
+      var temp = sourceOption[j];
+      sourceOption[j] = sourceOption[i];
+      sourceOption[i] = temp;
+  }
+  return sourceOption;
+}
+
 exports.questions_get_all = (req, res, next) => {
   db.Question.findAll({
     include: ["Options"],
@@ -8,6 +19,9 @@ exports.questions_get_all = (req, res, next) => {
       res.status(200).json({
         count: results.length,
         results: results.map((result) => {
+          //shuffling options
+          if(result.isShuffleOrder)
+            shuffleOptions(result.Options)
           return {
             question_id: result.id,
             questionText: result.questionText,
@@ -81,6 +95,9 @@ exports.questions_get_question = (req, res, next) => {
       include: ["Options"],
     })
       .then((result) => {
+        //shuffling options
+        if(result.isShuffleOrder)
+          shuffleOptions(result.Options)
         res.status(200).json({
           question_id: result.id,
           questionText: result.questionText,
